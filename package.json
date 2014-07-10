@@ -1,0 +1,19 @@
+{
+  "name": "stickShelf",
+  "version": "0.0.0",
+  "description": "Bookshelf.js + Backbone with Stickit",
+  "main": "main.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dwthomas77/stickShelf.git"
+  },
+  "author": "David W. Thomas",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dwthomas77/stickShelf/issues"
+  },
+  "homepage": "https://github.com/dwthomas77/stickShelf"
+}
