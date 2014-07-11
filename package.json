@@ -18,7 +18,8 @@
   "dependencies": {
     "knex": "0.6",
     "sqlite3": "2.2.3",
-    "bookshelf": "0.7.6"
+    "bookshelf": "0.7.6",
+    "express": "*"
   },
   "homepage": "https://github.com/dwthomas77/stickShelf"
 }
