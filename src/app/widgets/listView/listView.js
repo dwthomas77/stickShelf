@@ -2,28 +2,24 @@ define(
 [
     'MessageBus',
     'BaseView',
-    'app/widgets/listView/ListView',
-    //'app/widgets/detailView/DetailView',
-    'text!app/pages/home/HomeTemplate.html'
+    'text!app/widgets/listView/ListViewTemplate.html'
 ],
 
-function(MessageBus, BaseView, ListView, homeTemplate) {
+function(MessageBus, BaseView, tmpl) {
 
-    'use strict';
+	'use strict';
 
     // The base view for this module (extends from /libs/js/superview.js)
     return BaseView.extend({
 
-        // Make this view a <section> in the DOM
         tagName: 'section',
 
-        // Give it a class of 'page'
-        className: 'page',
+        className: 'list-vew panel panel-default',
 
         // Use the template passed in from the define
         template: {
-            name: 'homeTemplate',
-            source: homeTemplate
+            name: 'ListViewTemplate',
+            source: tmpl
         },
 
         elements: [],
@@ -38,11 +34,6 @@ function(MessageBus, BaseView, ListView, homeTemplate) {
                 //     viewClass: MainMenuWidget,
                 //     parentElement: this.mainmenuElement
                 //}
-                // {
-                //     name: 'ListView',
-                //     viewClass: ListView,
-                //     parentElement: this.$('#left-col')
-                // }
             ]);
 
         }
