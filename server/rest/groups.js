@@ -34,7 +34,7 @@ module.exports = (function() {
 		  			}); 
 				});
 			}else{
-				res.json(collexction.toJSON());
+				res.json(collection.toJSON());
 			}
 	});
 
