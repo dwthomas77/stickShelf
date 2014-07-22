@@ -1,0 +1,26 @@
+// support thin client windows
+@media (max-width: 600px) {
+	.detail-view {
+		width: 90%;
+		margin: 0px auto;
+	}
+}
+
+@media (min-width: 600px) {
+	.detail-view {
+		width: 45%;
+		margin-right: 5%;
+	}
+}
+
+.detail-view{
+	float: left;
+}
+
+.detail-view .panel-body {
+	height: 130px;
+}
+
+.detail-content {
+	height: 75px;
+}

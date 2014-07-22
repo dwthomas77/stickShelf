@@ -1,21 +1,16 @@
-var express = require('express');
-var app = require('../server');
 
-// require the 'groups' restful interface service
+// require the /groups router
 var groups = require('./groups');
 
-module.exports = (function() {
-    'use strict';
+// router
+var router = require('express').Router();
 
-    // router
-    var router = express.Router();
+// groups module
+router.use('/groups', groups);
 
-	// groups module
-	router.use('/groups', groups);
+router.use('/', function(req, res) {
+    res.send('Welcome to the RESTful API');
+});
 
-    router.use('/', function(req, res) {
-        res.send('Welcome to the RESTful API');
-    });
-
-    return router;
-})();
+// export the router
+module.exports = router;

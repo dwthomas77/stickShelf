@@ -1,57 +1,109 @@
+// express + app + bookshelf
 var express = require('express');
-var app = require('../server');
-
-// bookshelf
+var app = require( process.cwd() + '/server/server');
 var bookshelf = app.get('bookshelf');
 
-module.exports = (function() {
-    'use strict';
-    var router = express.Router();
+// lodash for binding and stuff
+var _ = require('lodash');
 
-    // set error message string to return an error
-    var err = {};
+// Group model
+var Group = require('./models/GroupModel');
 
-    // Define Group Model
-	var Group = bookshelf.Model.extend({
-		tableName: 'groups'
-	});
+var router = express.Router();
 
-    router.get('/', function(req, res) {
+// Group Endpoint - Fetch by ID (GET) or Delete by ID (DELETE)
+router.use('/:id', function(req, res) {
 
-    	// query for all groups
-    	// Build Group Collection
+	// bind this response to error function
+	var returnError = returnErrorFunc(res);
+
+	new Group({'id': req.params.id})
+		.fetch()
+		.then(function(group) {
+			// if group is not returned, then return error
+			if(!group){
+				returnError('Group ID '+req.params.id+' was not found in the database.');
+			}else{
+				// GET Group by ID
+				if(req.method === 'GET'){
+					res.json(200, group.toJSON());
+				// PUT Group changes by ID
+				}else if(req.method === 'PUT'){
+					group.save(req.body)
+						// then return success message to the UI
+						.then(function(){
+							res.json(200, {
+								"msg" : 'Group '+req.params.id+' successfully updated in database.'
+							});
+						});
+				// DELETE Group by ID
+				}else if(req.method === 'DELETE'){
+					// delete the group from the table
+					group.destroy()
+						// then return success message to the UI
+						.then(function(){
+							res.json(200, {
+								"msg" : 'Group '+req.params.id+' successfully deleted from database'
+							});
+						});
+				}
+			}
+		});
+});
+
+// Groups Endpoint - Fetch All (GET) or Add new Group (POST)
+router.use('/', function(req, res) {
+	
+	// bind this response to error function
+	var returnError = returnErrorFunc(res);
+
+	// GET all groups
+	if(req.method === 'GET'){
 		Group.collection().fetch().then(function(collection) {
-	  		// return an error
 			if(collection.isEmpty()){
-			//	err.str = 'No Group objects found in database';
-			//}
-			// or add a new default group to return a valid result
-				Group.forge({
-					name: 'Default Group'
-				}).save().then(function() {
-		  			Group.collection().fetch().then(function(collection) {
-		  				res.json(collection.toJSON());
-		  			}); 
-				});
+				returnError('No Group objects found in database.');
 			}else{
 				res.json(collection.toJSON());
 			}
-	});
+		});
+	// POST new group
+	}else if(req.method === 'POST'){
+		// confirm body of request
+		if(!req.body){
+			returnError('Required parameters for new Group were not provided.');
+		}else{
+			// build model from payload
+			var group = new Group(req.body);
+			// validate model
+			var validationError = group.validate();
+			if(validationError) {
+				returnError(validationError);
+			}else{
+				group.save().then(function(model) {
+					res.json(200, {
+						"msg" : "Group Model ID " + model.get('id') +  " Successfully Added"
+					})
+				});
+			}
+		}
+	// if method not supported return error
+	}else{
+		returnError('The method ' + req.method + ' is not supported by this endpoint.');
+	}
+});
 
+module.exports = router;
 
-    	// if(err.str){
-    	// 	res.json({
-    	// 		"error" : {
-    	// 			"msg" : err.str
-    	// 		}
-    	// 	});
-    	// }else{
+// * -- global functions -- *
 
+// function to handle returning error messages
+function returnErrorFunc(res){
+	return function(str){
+		res.json(404, {
+			"error" : {
+				"msg" : str
+			}
+		});
+	};
+}
 
-    	// 	console.log(Group.collection());
-    	// }
-
-	});
-
-    return router;
-})();

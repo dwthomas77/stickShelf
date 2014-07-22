@@ -2,19 +2,20 @@ define(
 [
     'MessageBus',
     'BaseView',
+    'app/widgets/listItemView/ListItemView',
     'text!app/widgets/listView/ListViewTemplate.html'
 ],
 
-function(MessageBus, BaseView, tmpl) {
+function(MessageBus, BaseView, ListItemView, tmpl) {
 
 	'use strict';
 
     // The base view for this module (extends from /libs/js/superview.js)
     return BaseView.extend({
 
-        tagName: 'section',
+        tagName: 'div',
 
-        className: 'list-vew panel panel-default',
+        className: 'list-view panel panel-default',
 
         // Use the template passed in from the define
         template: {
@@ -26,16 +27,14 @@ function(MessageBus, BaseView, tmpl) {
 
         // After the DOM element is rendered, create our child widgets
         postRender: function() {
-
-            this.addChildren([
-                // Example: 
-                // {
-                //     name: 'MainMenu',
-                //     viewClass: MainMenuWidget,
-                //     parentElement: this.mainmenuElement
-                //}
-            ]);
-
+            this.collection.each(function(model) {
+                this.addChild({
+                    name: 'ListItemView',
+                    viewClass: ListItemView,
+                    parentElement: this.$el.find('.list-group'),
+                    options: {model: model}
+                });
+            }, this);
         }
 
     });

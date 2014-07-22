@@ -6,7 +6,8 @@
     require([
 
         'app/app',
-        'bootstrap'
+        'bootstrap',
+        'stickit'
 
     ],
 

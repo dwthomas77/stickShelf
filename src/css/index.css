@@ -4,6 +4,40 @@
 }
 
 /* line 1, ../sass/_layout.scss */
+.row {
+  padding: 0px 15px;
+}
+
+/* line 5, ../sass/_layout.scss */
 .page-header {
   padding-left: 15%;
+}
+
+@media (max-width: 600px) {
+  /* line 3, ../sass/_detailView.scss */
+  .detail-view {
+    width: 90%;
+    margin: 0px auto;
+  }
+}
+@media (min-width: 600px) {
+  /* line 10, ../sass/_detailView.scss */
+  .detail-view {
+    width: 45%;
+    margin-right: 5%;
+  }
+}
+/* line 16, ../sass/_detailView.scss */
+.detail-view {
+  float: left;
+}
+
+/* line 20, ../sass/_detailView.scss */
+.detail-view .panel-body {
+  height: 130px;
+}
+
+/* line 24, ../sass/_detailView.scss */
+.detail-content {
+  height: 75px;
 }

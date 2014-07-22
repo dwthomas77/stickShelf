@@ -18,6 +18,9 @@ var require = {
         // Backbone
         backbone:       'vendor/backbone.min',
 
+        // Stickit
+        stickit:       'vendor/backbone.stickit',
+
         // Bootstrap
         bootstrap: 'vendor/bootstrap.min',
 
@@ -30,21 +33,25 @@ var require = {
 
     },
 
-  // Shim those modules that are not set up for AMD
-  // http://requirejs.org/docs/api.html#config-shim
     shim: {
 
-        backbone: {
-            deps: ['underscore', 'jquery'],
-            exports: 'Backbone'
+        // Global Libraries
+        bootstrap: {
+            deps: ['jquery']
         },
 
         underscore: {
             exports: '_'
         },
 
-        bootstrap: {
-            deps: ['jquery']
+        backbone: {
+            deps: ['underscore', 'jquery'],
+            exports: 'Backbone'
+        },
+
+        // Plugins
+        stickit: { 
+            deps: ["backbone"] 
         }
 
     }

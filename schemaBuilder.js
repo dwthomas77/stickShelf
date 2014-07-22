@@ -40,6 +40,7 @@ var buildDocumentsTable = function() {
 		doc.increments('id');
 		// use created and updated timestamps
 		doc.timestamps();
+		doc.string('name');
 		doc.string('title');
 		doc.text('body');
 		// foreign key references User id
