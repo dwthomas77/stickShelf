@@ -2,12 +2,12 @@ define(
 [
     'MessageBus',
     'BaseView',
-    'app/domain/GroupModel',
-    'text!app/widgets/groupDetailView/GroupDetailEditTemplate.html',
-    'text!app/widgets/groupDetailView/GroupDetailROTemplate.html'
+    'app/domain/UserModel',
+    'text!app/widgets/userDetailView/UserDetailEditTemplate.html',
+    'text!app/widgets/userDetailView/UserDetailROTemplate.html'
 ],
 
-function(MessageBus, BaseView, GroupModel, editTmpl, roTmpl) {
+function(MessageBus, BaseView, UserModel, editTmpl, roTmpl) {
 
 	'use strict';
 
@@ -15,39 +15,58 @@ function(MessageBus, BaseView, GroupModel, editTmpl, roTmpl) {
 
 		tagName: 'div',
 
-        className: 'panel panel-default detail-view',
+        className: 'panel panel-default user-detail-view',
 
         elements: ['save'],
 
         events: {
-        	'click .js-save': 'saveGroup',
-            'click .js-edit': 'editGroup',
-            'click .js-delete': 'deleteGroup'
+        	'click .js-save': 'saveUser',
+            'click .js-edit': 'editUser',
+            'click .js-delete': 'deleteUser'
         },
 
         bindings: {
-            '.js-groupId': 'id',
-            '.js-groupName': 'name'
-            
+                '.js-userId' : 'id',
+                '.js-firstName' : 'first_name',
+                '.js-lastName' : 'last_name',
+                '.js-email' : 'email',
+                '.js-group': {
+                    observe: 'group_id',
+                    selectOptions: {
+                        collection: 'this.selectCollection',
+                        labelPath: 'name',
+                        valuePath: 'id'
+                    }
+                },
+                '.js-groupName': {
+                    observe: 'group_id',
+                    onGet: 'formatGroupName'
+                }
         },
 
-        initialize: function() {
-            this.model = this.model || new GroupModel();
+        initialize: function(options) {
+            this.model = this.model || new UserModel();
             this.model.on('invalid', this.validationError);
-        },
 
+            this.selectCollection = options.selectCollection;
+
+            this.model.set('groups',
+                this.options.selectCollection.isEmpty() ? [] : this.options.selectCollection.toJSON()
+            );
+
+        },
 
         // override the render funtion to add dynamic templates
         render: function() {
         	// support for either Read Only (RO) or Editable Display templates
             if(this.model.isNew() || this.edit){
                 this.template = {
-                    name: 'GroupDetailEdit',
+                    name: 'UserDetailEdit',
                     source: editTmpl
                 };
             }else{
                 this.template = {
-                    name: 'GroupDetailDisplay',
+                    name: 'UserDetailDisplay',
                     source: roTmpl
                 };
             }
@@ -60,26 +79,21 @@ function(MessageBus, BaseView, GroupModel, editTmpl, roTmpl) {
             this.stickit();
         },
 
-        saveGroup: function(event) {
-            // clean model
-            _.each(this.model.attributes, function(value, key){
-                if(key !== 'id' && key !== 'name'){
-                    this.model.unset(key);
-                }
-            });
-            this.model.save({}, {
+        saveUser: function(event) {
+            // clean and save model
+            this.model.clean().save({}, {
                 success: this.successMsg,
                 error: this.errorMsg
             });
             this.edit = false;
         },
 
-        editGroup: function(event) {
+        editUser: function(event) {
             this.edit = true;
             this.render();
         },
 
-        deleteGroup: function(event) {
+        deleteUser: function(event) {
             this.model.destroy({
                 wait: true,
                 success: this.successMsg
@@ -98,7 +112,7 @@ function(MessageBus, BaseView, GroupModel, editTmpl, roTmpl) {
                 class: 'alert-success',
                 text: response.msg
             });
-            MessageBus.trigger('fetchGroups');
+            MessageBus.trigger('fetchUsers');
         },
 
         errorMsg: function(model, response, options) {
@@ -109,7 +123,15 @@ function(MessageBus, BaseView, GroupModel, editTmpl, roTmpl) {
                 class: 'alert-danger',
                 text: response.error.msg
             });
+        },
+
+        formatGroupName: function(value, options) {            
+            // Group is not required and may not have a value
+            if(!_.isEmpty(options.view.model.get('group'))){
+                return options.view.model.get('group').name;
+            }
         }
+
 
 	});
 

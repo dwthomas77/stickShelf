@@ -1,17 +1,82 @@
 
 
 <header class="page-header">
-	<h1>StickShelf! <small>Full Stack JavaScript</small></h1>
+	<h1>StickShelf! <small>Full Stack JavaScript with Stickit and Bookshelf.js</small></h1>
 </header>
 
 <div class="row">
 	<div class="col-md-4" id="left-col">
-		<div class="panel-group" id="accordion"></div>
+
+		<!-- ACCORDIAN FUNCTIONALITY -->
+		<div class="panel-group" id="collapsibleLists">
+		  <div class="panel panel-primary panel-groups">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		        <a data-toggle="collapse" data-parent="#collapsibleLists" href="#collapseGroups">
+		          Groups
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="collapseGroups" class="panel-collapse collapse in"></div>
+		  </div>
+		  <div class="panel panel-default panel-users">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		        <a data-toggle="collapse" data-parent="#collapsibleLists" href="#collapseUsers">
+		          Users
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="collapseUsers" class="panel-collapse collapse"></div>
+		  </div>
+		  <div class="panel panel-default panel-documents">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		        <a data-toggle="collapse" data-parent="#collapsibleLists" href="#collapseDocuments">
+		          Documents
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="collapseDocuments" class="panel-collapse collapse"></div>
+		  </div>
+		</div>
+
+
+		<!-- COLLAPSIBLE LISTS -->
+<!-- 		<div class="panel-group" id="accordion">
+		  <div class="panel panel-default">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		        <a data-toggle="collapse" data-parent="#accordion" href="#collapseGroups" data-target=".collapse-groups">
+		          Groups
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="collapseGroups" class="panel-collapse collapse collapse-groups in"></div>
+		  </div>
+		  <div class="panel panel-default">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		        <a data-toggle="collapse" data-parent="#accordion" href="#collapseUsers" data-target=".collapse-users">
+		          Users
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="collapseUsers" class="panel-collapse collapse-users collapse"></div>
+		  </div>
+		  <div class="panel panel-default">
+		    <div class="panel-heading">
+		      <h4 class="panel-title">
+		        <a data-toggle="collapse" data-parent="#accordion" href="#collapseDocuments" data-target=".collapse-documents">
+		          Documents
+		        </a>
+		      </h4>
+		    </div>
+		    <div id="collapseDocuments" class="panel-collapse collapse-documents collapse"></div>
+		</div>
+ -->		
 	</div>
 	<div class="col-md-8" id="right-col">
-		<div class="alert alert-info js-alertBox" role="alert">
-			<strong>Detail View</strong>
-			Add, Edit and Remove Records from the Database
-		</div>
+		<div class="alert alert-info js-alertBox hidden" role="alert"></div>
 	</div>
 </div>

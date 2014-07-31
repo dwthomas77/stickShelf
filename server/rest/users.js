@@ -6,29 +6,31 @@ var bookshelf = app.get('bookshelf');
 // lodash for binding and stuff
 var _ = require('lodash');
 
-// Group model
-var Group = require('./models/GroupModel');
+// User model
+var User = require('./models/UserModel');
 
 // declare the router
 var router = express.Router();
 
-// GROUPS API (/rest/groups)
+// USERS API (/rest/users)
 router.route('/')
 
-	// Fetch All Groups (GET)
+	// Fetch All Users (GET)
 	.get(function(req, res) {
 	
 		// bind this response for error handling
 		var returnError = returnErrorFunc(res);
 
-		Group.collection().fetch()
+		User.collection().fetch({
+				withRelated: ['group']
+			})
 			.then(function(collection) {
 				res.json(collection.toJSON());
 			});
 
 	})
 
-	// Add new Group (POST)
+	// Add new User (POST)
 	.post(function(req, res) {
 		
 		// bind this response to error function
@@ -36,18 +38,18 @@ router.route('/')
 
 		// confirm body of request
 		if(!req.body){
-			returnError('Required parameters for new Group were not provided.');
+			returnError('Required parameters for new User were not provided.');
 		}else{
 			// build model from payload
-			var group = new Group(req.body);
+			var user = new User(req.body);
 			// validate model
-			var validationError = group.validate();
+			var validationError = user.validate();
 			if(validationError) {
 				returnError(validationError);
 			}else{
-				group.save().then(function(model) {
+				user.save().then(function(model) {
 					res.json(200, {
-						"msg" : "Group Model ID " + model.get('id') +  " Successfully Added"
+						"msg" : "User Model ID " + model.get('id') +  " Successfully Added"
 					})
 				});
 			}
@@ -56,7 +58,7 @@ router.route('/')
 	});
 
 
-// GROUP API (/rest/groups/:id)
+// USER API (/rest/users/:id)
 router.route('/:id')
 
 	// Fetch by ID (GET)
@@ -65,14 +67,16 @@ router.route('/:id')
 		// bind this response to error function
 		var returnError = returnErrorFunc(res);
 
-		new Group({'id': req.params.id})
-			.fetch()
-			.then(function(group) {
-				// if group is not returned, then return error
-				if(!group){
-					returnError('Group ID '+req.params.id+' was not found in the database.');
+		new User({'id': req.params.id})
+			.fetch({
+				withRelated: ['group']
+			})
+			.then(function(user) {
+				// if user is not returned, then return error
+				if(!user){
+					returnError('User ID '+req.params.id+' was not found in the database.');
 				}else{
-					res.json(200, group.toJSON());
+					res.json(200, user.toJSON());
 				}
 			});
 	})
@@ -83,18 +87,20 @@ router.route('/:id')
 		// bind this response to error function
 		var returnError = returnErrorFunc(res);
 
-		new Group({'id': req.params.id})
-			.fetch()
-			.then(function(group) {
-				// if group is not returned, then return error
-				if(!group){
-					returnError('Group ID '+req.params.id+' was not found in the database.');
+		new User({'id': req.params.id})
+			.fetch({
+				withRelated: ['group']
+			})
+			.then(function(user) {
+				// if user is not returned, then return error
+				if(!user){
+					returnError('User ID '+req.params.id+' was not found in the database.');
 				}else{
-					group.save(req.body)
+					user.save(req.body)
 						// then return success message to the UI
 						.then(function(){
 								res.json(200, {
-									"msg" : 'Group '+req.params.id+' successfully updated in database.'
+									"msg" : 'User '+req.params.id+' successfully updated in database.'
 								});
 						})
 						.catch(function(error) {
@@ -111,18 +117,18 @@ router.route('/:id')
 		// bind this response to error function
 		var returnError = returnErrorFunc(res);
 
-		new Group({'id': req.params.id})
+		new User({'id': req.params.id})
 			.fetch()
-			.then(function(group) {
-				// if group is not returned, then return error
-				if(!group){
-					returnError('Group ID '+req.params.id+' was not found in the database.');
+			.then(function(user) {
+				// if user is not returned, then return error
+				if(!user){
+					returnError('User ID '+req.params.id+' was not found in the database.');
 				}else{
-					group.destroy()
+					user.destroy()
 					// then return success message to the UI
 					.then(function(){
 						res.json(200, {
-							"msg" : 'Group '+req.params.id+' successfully removed from database.'
+							"msg" : 'User '+req.params.id+' successfully removed from database.'
 						})
 					})
 					.catch(function(error) {

@@ -1,4 +1,4 @@
-// support thin client windows
+// Group Detail View
 @media (max-width: 600px) {
 	.detail-view {
 		width: 90%;
@@ -18,9 +18,34 @@
 }
 
 .detail-view .panel-body {
-	height: 130px;
+	height: 100px;
 }
 
-.detail-content {
-	height: 75px;
+// User Detail View
+
+// Group Detail View
+@media (max-width: 600px) {
+	.user-detail-view {
+		width: 90%;
+		margin: 0px auto;
+	}
+}
+
+@media (min-width: 600px) {
+	.user-detail-view {
+		width: 45%;
+		margin-right: 5%;
+	}
+}
+
+.user-detail-view{
+	float: left;
+}
+
+.user-detail-view .panel-body {
+	height: 295px;
+}
+
+.user-detail-content {
+
 }

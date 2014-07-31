@@ -16,21 +16,19 @@ var bookshelf = require('bookshelf')(require('knex')({
 // set on app for submodule reference
 app.set('bookshelf', bookshelf);
 
-// init Repository
-var Repository = require('./rest/Repository');
-
 // require the restful interface router as a module
 var restRouter = require('./rest/restRouter');
 
-// parse application/json
+// JSON data parser
 app.use(bodyParser.json());
 
-// use REST subapp for restful requests
+// REST API
 app.use('/rest', restRouter);
 
 // serve static files for all other requests
 app.use(express.static('./src'));
 
+// launch application
 app.listen(app.get('port'), function(){
  console.log('Express server listening on port ' + app.get('port'));
 });

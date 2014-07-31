@@ -3,6 +3,7 @@ var bookshelf = app.get('bookshelf');
 
 // Define Group Model
 var Group = bookshelf.Model.extend({
+
 	tableName: 'groups',
 
 	validate: function() {

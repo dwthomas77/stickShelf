@@ -5,7 +5,7 @@
 
 /* line 1, ../sass/_layout.scss */
 .row {
-  padding: 0px 15px;
+  padding: 0px 20px;
 }
 
 /* line 5, ../sass/_layout.scss */
@@ -34,10 +34,29 @@
 
 /* line 20, ../sass/_detailView.scss */
 .detail-view .panel-body {
-  height: 130px;
+  height: 100px;
 }
 
-/* line 24, ../sass/_detailView.scss */
-.detail-content {
-  height: 75px;
+@media (max-width: 600px) {
+  /* line 28, ../sass/_detailView.scss */
+  .user-detail-view {
+    width: 90%;
+    margin: 0px auto;
+  }
+}
+@media (min-width: 600px) {
+  /* line 35, ../sass/_detailView.scss */
+  .user-detail-view {
+    width: 45%;
+    margin-right: 5%;
+  }
+}
+/* line 41, ../sass/_detailView.scss */
+.user-detail-view {
+  float: left;
+}
+
+/* line 45, ../sass/_detailView.scss */
+.user-detail-view .panel-body {
+  height: 295px;
 }

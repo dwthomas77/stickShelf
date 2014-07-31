@@ -6,29 +6,31 @@ var bookshelf = app.get('bookshelf');
 // lodash for binding and stuff
 var _ = require('lodash');
 
-// Group model
-var Group = require('./models/GroupModel');
+// Document model
+var Document = require('./models/DocumentModel');
 
 // declare the router
 var router = express.Router();
 
-// GROUPS API (/rest/groups)
+// DOCUMENTS API (/rest/documents)
 router.route('/')
 
-	// Fetch All Groups (GET)
+	// Fetch All Documents (GET)
 	.get(function(req, res) {
 	
 		// bind this response for error handling
 		var returnError = returnErrorFunc(res);
 
-		Group.collection().fetch()
+		Document.collection().fetch({
+				withRelated: ['user']
+			})
 			.then(function(collection) {
 				res.json(collection.toJSON());
 			});
 
 	})
 
-	// Add new Group (POST)
+	// Add new Document (POST)
 	.post(function(req, res) {
 		
 		// bind this response to error function
@@ -36,18 +38,18 @@ router.route('/')
 
 		// confirm body of request
 		if(!req.body){
-			returnError('Required parameters for new Group were not provided.');
+			returnError('Required parameters for new Document were not provided.');
 		}else{
 			// build model from payload
-			var group = new Group(req.body);
+			var doc = new Document(req.body);
 			// validate model
-			var validationError = group.validate();
+			var validationError = doc.validate();
 			if(validationError) {
 				returnError(validationError);
 			}else{
-				group.save().then(function(model) {
+				doc.save().then(function(model) {
 					res.json(200, {
-						"msg" : "Group Model ID " + model.get('id') +  " Successfully Added"
+						"msg" : "Document Model ID " + model.get('id') +  " Successfully Added"
 					})
 				});
 			}
@@ -55,8 +57,7 @@ router.route('/')
 
 	});
 
-
-// GROUP API (/rest/groups/:id)
+// DOCUMENT API (/rest/documents/:id)
 router.route('/:id')
 
 	// Fetch by ID (GET)
@@ -65,13 +66,16 @@ router.route('/:id')
 		// bind this response to error function
 		var returnError = returnErrorFunc(res);
 
-		new Group({'id': req.params.id})
-			.fetch()
-			.then(function(group) {
-				// if group is not returned, then return error
-				if(!group){
-					returnError('Group ID '+req.params.id+' was not found in the database.');
+		new Document({'id': req.params.id})
+			.fetch({
+				withRelated: ['user']
+			})
+			.then(function(doc) {
+				// if document is not returned, then return error
+				if(!doc){
+					returnError('Document ID '+req.params.id+' was not found in the database.');
 				}else{
+					// GET Document by ID
 					res.json(200, group.toJSON());
 				}
 			});
@@ -83,46 +87,18 @@ router.route('/:id')
 		// bind this response to error function
 		var returnError = returnErrorFunc(res);
 
-		new Group({'id': req.params.id})
+		new Document({'id': req.params.id})
 			.fetch()
-			.then(function(group) {
-				// if group is not returned, then return error
-				if(!group){
-					returnError('Group ID '+req.params.id+' was not found in the database.');
+			.then(function(doc) {
+				// if document is not returned, then return error
+				if(!doc){
+					returnError('Document ID '+req.params.id+' was not found in the database.');
 				}else{
-					group.save(req.body)
-						// then return success message to the UI
-						.then(function(){
-								res.json(200, {
-									"msg" : 'Group '+req.params.id+' successfully updated in database.'
-								});
-						})
-						.catch(function(error) {
-    						var errorMsg = new String(error);
-    						returnError(errorMsg);
-   						});
-				}
-			});
-	})
-
-	// DELETE by ID (DELETE)
-	.delete(function(req, res) {
-		
-		// bind this response to error function
-		var returnError = returnErrorFunc(res);
-
-		new Group({'id': req.params.id})
-			.fetch()
-			.then(function(group) {
-				// if group is not returned, then return error
-				if(!group){
-					returnError('Group ID '+req.params.id+' was not found in the database.');
-				}else{
-					group.destroy()
+					doc.save(req.body)
 					// then return success message to the UI
 					.then(function(){
 						res.json(200, {
-							"msg" : 'Group '+req.params.id+' successfully removed from database.'
+							"msg" : 'Group '+req.params.id+' successfully updated in database.'
 						})
 					})
 					.catch(function(error) {
@@ -131,8 +107,36 @@ router.route('/:id')
 					});
 				}
 			});
-	});
+	})
 
+	// DELETE by ID (DELETE)
+	.delete(function(req, res) {
+
+		// bind this response to error function
+		var returnError = returnErrorFunc(res);
+
+		new Document({'id': req.params.id})
+			.fetch()
+			.then(function(doc) {
+				// if document is not returned, then return error
+				if(!doc){
+					returnError('Document ID '+req.params.id+' was not found in the database.');
+				}else{
+					doc.destroy()
+					// then return success message to the UI
+					.then(function(){
+						res.json(200, {
+							"msg" : 'Document '+req.params.id+' successfully removed from database.'
+						})
+					})
+					.catch(function(error) {
+						var errorMsg = new String(error);
+						returnError(errorMsg);
+					});
+				}
+			});
+
+	});
 
 module.exports = router;
 
