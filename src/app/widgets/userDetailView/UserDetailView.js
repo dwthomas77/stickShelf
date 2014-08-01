@@ -35,8 +35,12 @@ function(MessageBus, BaseView, UserModel, editTmpl, roTmpl) {
                     selectOptions: {
                         collection: 'this.selectCollection',
                         labelPath: 'name',
-                        valuePath: 'id'
-                    }
+                        valuePath: 'id',
+                        defaultOption: {
+                            label: 'Select Group',
+                            value: null
+                        }
+                    },
                 },
                 '.js-groupName': {
                     observe: 'group_id',

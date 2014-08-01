@@ -41,13 +41,13 @@ function(MessageBus, BaseView, DocumentModel, editTmpl, roTmpl) {
                             })
                             return this.selectCollection;
                         },
+                        defaultOption: {
+                            label: 'Select User',
+                            value: null
+                        },
                         labelPath: 'full_name',
                         valuePath: 'id'
                     },
-                    defaultOption: {
-                        label: 'Select User',
-                        value: null
-                    }
                 },
                 '.js-userName': {
                     observe: 'user_id',
