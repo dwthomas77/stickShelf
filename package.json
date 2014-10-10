@@ -16,17 +16,18 @@
     "url": "https://github.com/dwthomas77/stickShelf/issues"
   },
   "dependencies": {
-    "bookshelf": "0.7.6",
+    "bookshelf": "^0.7.6",
     "express": "*",
-    "knex": "0.6",
+    "knex": "^0.6",
     "lodash": "^2.4.1",
-    "sqlite3": "2.2.3",
+    "sqlite3": "^2.2.3",
     "body-parser": "*"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
     "grunt-contrib-compass": "^0.9.0",
     "grunt-contrib-jshint": "^0.10.0",
+    "grunt-contrib-requirejs": "^0.4.4",
     "grunt-contrib-watch": "^0.6.1"
   },
   "homepage": "https://github.com/dwthomas77/stickShelf"

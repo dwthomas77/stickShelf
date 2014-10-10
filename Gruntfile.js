@@ -38,14 +38,32 @@ module.exports = function(grunt) {
         files: ['src/sass/*.scss', 'src/app/**/*.js'],
         tasks: ['jshint', 'compass:dev']
       }
-    }
+    },
 
+    requirejs: {
+      compile: {
+        options: {
+          appDir: "./src",
+          baseUrl: "./",
+          dir: "./build",
+          mainConfigFile: 'src/config.js',
+          modules: [
+            {
+              name: "main",
+              include: ['text', 'BaseView', 'app/pages/home/HomePage']
+            }
+          ]
+        }
+      }
+    }
   });
   
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-compass');
+  grunt.loadNpmTasks('grunt-contrib-requirejs');
 
   grunt.registerTask('default', ['jshint', 'compass:dev']);
+  grunt.registerTask('build', ['jshint', 'compass:dev', 'requirejs']);
 
 };

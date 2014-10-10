@@ -38,14 +38,15 @@ var buildDocumentsTable = function() {
 	knex.schema.createTable('documents', function (doc) {
 		// primary key id
 		doc.increments('id');
-		// use created and updated timestamps
-		doc.timestamps();
-		doc.string('name');
 		doc.string('title');
 		doc.text('body');
 		// foreign key references User id
 		doc.integer('user_id').unsigned().references('id').inTable('users');
-	}).then(console.log('schema finished building'));
+	})
+		.then(function(){
+			console.log('test.db schema finished building');
+			process.exit();
+		});
 
 };
 
@@ -53,9 +54,7 @@ var buildDocumentsTable = function() {
 buildTables();
 
 // Example Schema 
-//CREATE TABLE "documents" ("id" integer not null primary key autoincrement, "created_at" datetime, "updated_at" datetime, 
-	//"title" varchar(255), "body" text, "user_id" integer, foreign key("user_id") references "users"("id"));
-//CREATE TABLE "groups" ("id" integer not null primary key autoincrement, "name" varchar(255));
-//CREATE TABLE "users" ("id" integer not null primary key autoincrement, "first_name" varchar(255), "last_name" varchar(255), 
-	//"email" varchar(255), "group_id" integer, foreign key("group_id") references "groups"("id"));
-//CREATE UNIQUE INDEX users_email_unique on "users" ("email");
+// CREATE TABLE "documents" ("id" integer not null primary key autoincrement, "title" varchar(255), "body" text, "user_id" integer, foreign key("user_id") references "users"("id"));
+// CREATE TABLE "groups" ("id" integer not null primary key autoincrement, "name" varchar(255));
+// CREATE TABLE "users" ("id" integer not null primary key autoincrement, "first_name" varchar(255), "last_name" varchar(255), "email" varchar(255), "group_id" integer, foreign key("group_id") references "groups"("id"));
+// CREATE UNIQUE INDEX users_email_unique on "users" ("email");

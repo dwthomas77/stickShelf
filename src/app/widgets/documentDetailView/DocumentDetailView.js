@@ -38,7 +38,7 @@ function(MessageBus, BaseView, DocumentModel, editTmpl, roTmpl) {
                             this.selectCollection.each(function(user) {
                                 var full_name = user.get('first_name') + ' ' + user.get('last_name');
                                 user.set('full_name', full_name);
-                            })
+                            });
                             return this.selectCollection;
                         },
                         defaultOption: {
